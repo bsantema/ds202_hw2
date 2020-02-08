@@ -1,6 +1,7 @@
 ---
 title: "hw2.Rmd"
-author: "Brett Santema"
+author: "Brett Santema   <br /> github: bsantema"
+github: bsantema
 date: "2/7/2020"
 output: html_document
 ---
@@ -9,22 +10,77 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## R Commands
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+1. 
+```{r}
+temps <- c(24,15) #Fareignheight values
+cel <- c() #Celsius values
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+for(i in temps) #Filling in celsius values with formula
+  cel <- append(cel,(i-32)*5/9)
+  
+print(cel)
 
-```{r cars}
-summary(cars)
 ```
 
-## Including Plots
+2. 
+```{r}
+vec200 <- integer(200)
 
-You can also embed plots, for example:
+for(i in 0:200) {
+  if(i%%2==0){
+    vec200[i]=1
+  }else {
+    vec200[i]=3
+  }
+}
+print(vec200)
 
-```{r pressure, echo=FALSE}
-plot(pressure)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+3.
+```{r}
+numPerfect = floor(sqrt(2000))
+print(numPerfect)
+
+```
+
+
+## Cars and mileage
+1. 
+```{r}
+library(ggplot2)
+
+# Select 3 rows with highest hwy value
+mpgSortByHwy = mpg[order(mpg$hwy, decreasing=TRUE),] #Sorting by decrasing hwy value
+top3 = mpgSortByHwy[1:3,] #Grabbing the top 3
+print(top3)
+```
+
+2. 
+```{r}
+mpgCompactOnly = mpg[mpg$class=='compact',]
+mpgDiffModels = unique(mpgCompactOnly$model)
+numCompact = length(mpgDiffModels)
+print(numCompact)
+```
+
+3. 
+```{r}
+plot(mpg$cty, mpg$hwy)
+
+```
+
+Explanation: There are not that many visible points in this scatterplot because a lot of the cars have the exact same values for hwy or cty. This means that in the scatterplot, the 2 points are overlapping and appear to be 1 point, even though there could be several points in the same exact spot. The relationship of the scatterplot shows a positive correlation, meaning that cars with high hwy mpg also tend to have high cty mpg, and vice versa. This means that cars generally don't have signicicantly better mpg in one of the two areas, but are generally good in both or poor in both. 
+4. 
+```{r}
+print(summary(mpg[mpg$year == '1999',]$cty)) #Mean = 17.02
+print(summary(mpg[mpg$year == '1999',]$hwy)) #Mean = 23.43
+print(summary(mpg[mpg$year == '2008',]$cty)) #Mean = 16.7
+print(summary(mpg[mpg$year == '2008',]$hwy)) #Mean = 23.45
+plot(mpg$year, mpg$cty)
+plot(mpg$year, mpg$hwy)
+```
+
+Analysis: Looking at the summaries, we can see that the average (mean) city mpg for cars in 2008 barely differ from those in 1999, as there was a decrease of 0.32. FOr highway mpg, there was an increase of 0.02. These values are not all that significant, and thus don't indicate a difference in the overall mpg of cars in 1999 vs 2008. The scatterplots for highway and city mpg for 1999 vs 2008 also don't show any distinct visual differences. The only notable thing with the scatterplots is that it seems there are a select few cars from 1999 that have especially good mpg for both city and highway, reaching higher max values than the more recent cars. Overall, however, there isn't any big difference.
